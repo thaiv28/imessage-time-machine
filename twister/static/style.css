@@ -11,6 +11,18 @@
     text-align: right;
 }
 
+.next {
+    color: lightslategray;
+    font-size: 14px;
+}
+
+.meta {
+    text-align:right;
+    font-size: 14px;
+    color: lightslategrey;
+    padding: 0px
+}
+
 .message{
     border: 1px #eee solid;
     padding: 10px;
@@ -28,6 +40,17 @@
 .time {
     text-align: right;
     color: lightslategrey;
+}
+
+.result{
+    border: 1px #eee solid;
+    padding: 10px
+}
+
+.result-data{
+    padding:10px;
+    color: lightslategray;
+    font-size: 14px;
 }
 
 .searchbar{

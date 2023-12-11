@@ -1,1 +1,38 @@
 {% extends "/tm/base.html" %}
+{% block title%}{{terms}} - Time Machine Search! {%endblock%}
+{% block body%}
+<!-- receives {{terms}} and {{messages}} -->
+<main>
+    <section class="result-data">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col">
+                    {{messages|length}} results
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="results">
+        <div class="container-fluid">
+            {%for msg in messages %}
+                <div class ="row result">
+                        <div class="col-10 text-truncate">
+                            {% if msg.name%}
+                                <a href="{{ '/timemachine/message/%s'%msg.id}}">{{msg.signed_msg()}}</a>
+                                <br/>
+                                <div class="next">{{nexts[msg].text}}</div>
+                            {%endif%}
+                        </div>
+
+                        <div class="col-2 meta">
+                            {{msg.parentheses_date()}}
+                            <br/>
+                            {{msg.str_time()}}
+                        </div>
+                    
+                </div>
+            {%endfor%}
+        </div>
+    </section>
+</main>
+{%endblock%}

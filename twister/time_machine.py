@@ -10,22 +10,24 @@ class TimeMachine():
         self.master = self.get_messages(text)
         self.messages = self.master
         
-    
     def random(self):
         return self.messages[random.randint(0, len(self.messages) - 1)]
     
-    
-    def search(self, term, caps_sensitive=False, strict=False):
+    def search(self, term, caps_sensitive=False, strict=False, reactions=False):
         ret = []
         
         s = term.strip()
         
         for msg in self.messages:
-            if caps_sensitive and self.contains(msg.text, s, strict=strict):
-                ret.append(msg)
-            if not caps_sensitive and self.contains(msg.text.upper(), s.upper(),
-                                                    strict=strict):
-                ret.append(msg)
+            if reactions == False and msg.reaction:
+                
+                continue
+            else:
+                if caps_sensitive and self.contains(msg.text, s, strict=strict):
+                    ret.append(msg)
+                if not caps_sensitive and self.contains(msg.text.upper(), s.upper(),
+                                                        strict=strict):
+                    ret.append(msg)
         return ret
     
     
@@ -40,13 +42,46 @@ class TimeMachine():
         t = ''
         for line in split:
             if line == self.separator:
-                messages.append(Message(t, counter))
+                if "\nLoved " in t\
+                or "\nLiked " in t\
+                or "\nDisliked " in t\
+                or "\nLaughed at " in t:
+                    messages.append(Message(t, counter, reaction=True))
+                else:
+                    messages.append(Message(t, counter, reaction=False))
                 t = ''
                 counter += 1
             elif line != '':
                 t += line + '\n'
                 
         return messages
+    
+    def next(self, msg):
+        index = self.master.index(msg)
+        if index == len(self.master) - 1:
+            return None
+        
+        return self.master[index + 1]
+    
+    # returns next message the same user sent
+    def next_send(self, msg):
+        index = self.master.index(msg) + 1
+        next = None
+        
+        while index < len(self.master) - 1:
+            if(self.master[index].name == msg.name):
+                next = self.master[index]
+                break
+            else:
+                index += 1
+                
+        return next
+    
+    def getbyid(self, id):
+        if 0 < id < len(self.master):
+            return self.master[id]
+        else:
+            return None
     
     # strict variable determines if allows search term to be start of a word,
     # but not the whole word

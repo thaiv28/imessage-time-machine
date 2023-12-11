@@ -1,7 +1,7 @@
 import datetime
 
 class Message():
-    def __init__(self, text, id):
+    def __init__(self, text, id, reaction=False):
         s = text.strip().split('\n')
         if len(s) == 3:
             self.meta = s[0].strip()
@@ -27,9 +27,17 @@ class Message():
             self.name = None
         
         self.id = id
+        
+        self.reaction = reaction
+        
+
             
     def str_date(self):
         return self.date.strftime('%B %-d, %Y')
+    
+    # ex: 5/5/05
+    def parentheses_date(self):
+        return self.date.strftime('%-m/%-d/%y')
     
     def weekday(self):
         return self.date.strftime('%A')
@@ -39,6 +47,13 @@ class Message():
     
     def signed_msg(self):
         return self.name + ': ' + self.text
+    
+    def signed_snippet(self, length=100):
+        msg = self.signed_msg()
+        if len(msg) >= length:
+            return msg[0:length - 1] + '...'
+        else:
+            return msg
         
     def __str__(self):
         if self.reply:

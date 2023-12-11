@@ -19,8 +19,15 @@ def timemachine():
 
 @app.route('/timemachine/message/<int:id>')
 def message(id):
-    msg = jsonpickle.decode(session['msg'])
-    context = jsonpickle.decode(session['context'])
+    if 'msg' in session and session['id'] == id:
+        msg = jsonpickle.decode(session['msg'])
+        context = jsonpickle.decode(session['context'])
+    else:
+        t = create_tm()
+        encode(t, t.getbyid(id))
+        
+        msg = t.getbyid(id)
+        context = t.get_context(msg)
     
     return render_template('tm/message.html', msg=msg, context=context)
 
@@ -36,11 +43,16 @@ def timemachine_search():
         return redirect("/timemachine/message/"+str(msg.id))
     else:
         messages = t.search(request.args['terms'])
+        nexts = {}
+        for msg in messages:
+            nexts[msg] = t.next_send(msg)
+            
         if messages == []:
             return render_template('/tm/empty.html')
         else:
             msg = messages[0]
-            # return render_template('/tm/search.html')
+            return render_template('/tm/search.html', terms=request.args['terms'],
+                                   messages=messages, nexts=nexts)
 
     return render_template('tm/message.html', msg=msg, conteçxt=t.get_context(msg))
 
