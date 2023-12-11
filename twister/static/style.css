@@ -1,0 +1,50 @@
+.context {
+    text-align: left;
+}
+
+.context-messages {
+    display: flex;
+    justify-content: space-between;
+}
+
+.name {
+    text-align: right;
+}
+
+.message{
+    border: 1px #eee solid;
+    padding: 10px;
+}
+
+.primary {
+    text-align: center;
+    padding: 10px
+}
+
+.border {
+    border:2px #eee solid;
+}
+
+.time {
+    text-align: right;
+    color: lightslategrey;
+}
+
+.searchbar{
+    padding: 10px;
+    text-align: center;
+}
+
+p {
+    
+}
+
+h1 {
+    text-align: center;
+    padding: 10px;
+}
+
+h2 {
+    padding: 10px;
+}
+

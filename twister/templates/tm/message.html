@@ -1,0 +1,41 @@
+{% extends "/tm/base.html" %}
+{% block title %}The Time Machine!{% endblock%}
+{% block body%}
+<main>
+    <section>
+        <div class="container-fluid primary border">
+            <div class="row">
+                {% if msg.date and msg.time %}
+                    <p><b>{{msg.weekday()}} | {{msg.str_date()}} | {{msg.str_time()}} </b></p>
+                {% endif %}
+                {% if msg.reply %}
+                    <p>{{msg.reply}}</p>
+                {% endif %}
+            </div>
+            
+            <div class="row">
+                {% if msg.signed_msg() %}
+                    <p>{{ msg.signed_msg() }}</p>
+                {% endif %}
+            </div> 
+        </div>  
+    </section>
+    <section class="context">
+        <div class="container-fluid">
+            {% if context %}
+                <h2>Context:</h2>
+                <div class="context_messages">
+                    {% for msg in context%}
+                        <div class ="row message">
+                            <div class="col-2 name">{{msg.name}}: </div>
+                            <div class="col-8">{{msg.text}}</div>
+                            <div class="col-2 time">{{msg.str_time()}}</div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </section>
+    
+</main>
+{% endblock%}
