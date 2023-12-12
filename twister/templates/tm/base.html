@@ -9,31 +9,17 @@
 {% block bar%}
 <section>
     <div class="container-fluid">
-
         <form action="/timemachine/search" method="get">
             <div class="row searchbar">
-                <div class="col-6">
+                <div class="col-sm-12">
                     <div class="form-group">
                         <input type="text" placeholder="Search messages" name="terms">
+                        <button type="submit" formmethod="get" name="search" value="terms">Search</button>
+                        <button type="submit" formmethod="get" name="search" value="random">Random!</button>
                     </div>
                 </div>
-                <div class="col-1">
-                    <button type="submit" formmethod="get" name="search" value="terms">Search</button>
-                </div>
-                <div class="col-5">
-                    <div class="form-group">
-                        <button type="submit" formmethod="get" name="search" value="random">Random!</button>
-                    <div>
-                </div>
-            </div>
         </form>
         
-        
-        <div class="row options">
-            <div class="col-12">
-                
-            </div>
-        </div>
     </div>
 </section>
 {%endblock%}

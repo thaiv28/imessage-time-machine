@@ -28,9 +28,32 @@
     padding: 10px;
 }
 
+.filters{
+    font-size: 14px;
+    color:grey;
+    text-align:left;
+}
+
+.filters input{
+    /* margin-bottom: 10px; */
+}
+
 .primary {
     text-align: center;
     padding: 10px
+}
+
+.checkbox {
+    display:inline-block;
+    justify-content: center;
+}
+
+.caps-check {
+    padding: 5px
+}
+
+.strict-check {
+    
 }
 
 .border {
@@ -56,6 +79,7 @@
 .searchbar{
     padding: 10px;
     text-align: center;
+    justify-content: left;
 }
 
 p {

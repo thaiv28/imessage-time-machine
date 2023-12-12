@@ -1,5 +1,81 @@
 {% extends "/tm/base.html" %}
 {% block title%}{{terms}} - Time Machine Search! {%endblock%}
+{% block bar%}
+<section>
+    <div class="container-fluid">
+        <form action="/timemachine/search" method="get">
+            <div class="row searchbar">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <input type="text" placeholder="Search messages" name="terms" value="{{args.get('terms')}}">
+                        <button type="submit" formmethod="get" name="search" value="terms">Search</button>
+                        <button type="submit" formmethod="get" name="search" value="random">Random!</button>
+                    </div>
+                </div>
+            <div class="row filters pt-2">
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label for="sort_by">Sort by:</label>
+                        <select class="form-control w-auto" id="sort_by" name="sort_by" value="{{args.get('sort_by')}}">
+                            {% if args.get('sort_by') == 'Oldest first'%}
+                                <option selected>Oldest first</option>
+                            {% else %}
+                                <option>Oldest first</option>
+                            {% endif%}
+                            {% if args.get('sort_by') == 'Latest first'%}
+                                <option selected>Latest first</option>
+                            {% else %}
+                                <option>Latest first</option>
+                            {% endif%}
+                            {% if args.get('sort_by') == 'Random'%}
+                                <option selected>Random</option>
+                            {% else %}
+                                <option>Random</option>
+                            {% endif%}
+                            
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label for="start_date">Start:</label>
+                        <input class="form-control w-auto mb-2"type="date" id="start_date" name="start_date">
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label for="end">End:</label>
+                        <input class="form-control w-auto mb-2"type="date" id="end_date" name="end_date">
+                    </div>
+                </div>
+                <div class="col-sm-1">
+                    <div class="form-check">
+                        <label class="checkbox" for="caps">Caps</label>
+                        {% if args.get('caps')%}
+                            <input class="checkbox mt-2" type="checkbox" value="caps" name="caps" checked=true>
+                        {% else %}
+                            <input class="checkbox mt-2" type="checkbox" value="caps" name="caps">
+                        {% endif%}
+                     
+                    </div>
+                </div>
+                <div class="col-sm-1">
+                    <div class="form-check">
+                        <label class="checkbox" for="strict">Strict</label>
+                        {% if args.get('strict')%}
+                            <input class="checkbox mt-2" type="checkbox" value="strict" name="strict" checked=true>
+                        {% else %}
+                            <input class="checkbox mt-2" type="checkbox" value="strict" name="strict">
+                        {% endif%}
+                    </div>
+                </div>
+            </div>
+        </form>
+        
+    </div>
+</section>
+{%endblock%}
+
 {% block body%}
 <!-- receives {{terms}} and {{messages}} -->
 <main>

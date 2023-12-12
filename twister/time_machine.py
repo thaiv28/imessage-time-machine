@@ -13,14 +13,16 @@ class TimeMachine():
     def random(self):
         return self.messages[random.randint(0, len(self.messages) - 1)]
     
-    def search(self, term, caps_sensitive=False, strict=False, reactions=False):
+    def search(self, term, caps_sensitive=False, strict=False, reactions=False,
+               sort_by='Oldest first', start=None, end=None):
         ret = []
-        
+
         s = term.strip()
         
         for msg in self.messages:
             if reactions == False and msg.reaction:
-                
+                continue
+            elif '(Image)' in msg.text:
                 continue
             else:
                 if caps_sensitive and self.contains(msg.text, s, strict=strict):
@@ -28,8 +30,14 @@ class TimeMachine():
                 if not caps_sensitive and self.contains(msg.text.upper(), s.upper(),
                                                         strict=strict):
                     ret.append(msg)
+                    
+        if sort_by == 'Latest first':
+            ret.reverse()
+        elif sort_by == 'Random':
+            random.shuffle(ret)
+            
+        
         return ret
-    
     
     def get_messages(self, text):
         split = text.splitlines()
@@ -53,7 +61,7 @@ class TimeMachine():
                 counter += 1
             elif line != '':
                 t += line + '\n'
-                
+        
         return messages
     
     def next(self, msg):
@@ -117,7 +125,12 @@ class TimeMachine():
         
         return False
         
-    def get_context(self, msg, scope=10):
+    def random_search(self, term, caps_sensitive=False, strict=False, reactions=False):
+         results = self.search(term, caps_sensitive, strict, reactions)
+         
+         return results[random.randint(0, len(results) - 1)]
+        
+    def get_context(self, msg, scope=10, buffer=1):
         index = self.messages.index(msg)
         
         if index > scope:
@@ -131,9 +144,17 @@ class TimeMachine():
             upper = len(self.messages) - 1
             
         ret = []
+
         for i in range(lower, upper):
-            ret.append(self.messages[i])
-            
+            # check if same day
+            if self.messages[i].date == msg.date:
+                ret.append(self.messages[i])
+                last = self.messages[i]
+            elif i > lower:
+                if self.messages[i].datetime - last.datetime < \
+                datetime.timedelta(hours=2):
+                    ret.append(self.messages[i])
+                    
         return ret
     
     def dates(self, s=None, e=None):

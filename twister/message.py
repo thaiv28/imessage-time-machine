@@ -1,4 +1,5 @@
 import datetime
+import _strptime
 
 class Message():
     def __init__(self, text, id, reaction=False):
@@ -19,7 +20,8 @@ class Message():
         self.meta_words = self.meta.split()
             
         self.date = datetime.date.fromisoformat(self.meta_words[0])
-        self.time = datetime.datetime.strptime(self.meta_words[1], "%H:%M:%S")
+        self.time = datetime.time.fromisoformat(self.meta_words[1])
+        self.datetime = datetime.datetime.combine(self.date, self.time)
             
         if 'notification' not in self.meta:
             self.name = self.meta_words[3]
@@ -64,7 +66,7 @@ class Message():
 if __name__ == "__main__":
     text = "\n2022-12-14 18:39:47 from esther💙\nhey did u get a notecard in slimp"
     
-    msg = Message(text)
+    msg = Message(text, 0)
 
     assert msg.str_date() == 'December 14, 2022'
     assert msg.weekday() == 'Wednesday'

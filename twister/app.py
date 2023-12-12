@@ -34,25 +34,43 @@ def message(id):
 @app.route("/timemachine/search", methods=['GET'])
 def timemachine_search():
     t = create_tm()
+    if request.args.get('caps'):
+        caps = True
+    else:
+        caps = False
+    if request.args.get('strict'):
+        strict = True
+    else:
+        strict = False
+
     print(request.args)
     # check if random button click
     if request.args.get('search') == 'random':
-        msg = t.random()
+        if request.args.get('terms') == '':
+            msg = t.random()
+        else:
+            msg = t.random_search(request.args.get('terms'), caps_sensitive=caps,
+                                  strict=strict)
+            
         encode(t, msg)
-
         return redirect("/timemachine/message/"+str(msg.id))
     else:
-        messages = t.search(request.args['terms'])
+        messages = t.search(request.args['terms'], 
+                            sort_by=request.args.get('sort_by'),
+                            start=request.args.get('start_date'), 
+                            end=request.args.get('end_date'),
+                            caps_sensitive=caps, strict=strict)
         nexts = {}
-        for msg in messages:
-            nexts[msg] = t.next_send(msg)
+        
             
         if messages == []:
             return render_template('/tm/empty.html')
         else:
+            for msg in messages:
+                nexts[msg] = t.next_send(msg)
             msg = messages[0]
             return render_template('/tm/search.html', terms=request.args['terms'],
-                                   messages=messages, nexts=nexts)
+                                   messages=messages, nexts=nexts, args=request.args)
 
     return render_template('tm/message.html', msg=msg, conteçxt=t.get_context(msg))
 
@@ -64,7 +82,7 @@ def create_tm():
     f = open('../backup.txt', 'r')
     t = TimeMachine(f.read())
     f.close()
-    
+
     return t
 
 def encode(t, msg):
