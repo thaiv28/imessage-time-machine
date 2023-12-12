@@ -144,7 +144,7 @@ class TimeMachine():
             upper = len(self.messages) - 1
             
         ret = []
-
+        last = self.messages[lower]
         for i in range(lower, upper):
             # check if same day
             if self.messages[i].date == msg.date:
@@ -157,7 +157,7 @@ class TimeMachine():
                     
         return ret
     
-    def dates(self, s=None, e=None):
+    def dates(self, s=None, e=None)
         collect = True
         if s: 
             start = s.isoformat()
