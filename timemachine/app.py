@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, session
-from twister.time_machine import TimeMachine
+from imessage-time-machine.time_machine import TimeMachine
 import random
 import os
 import jsonpickle
