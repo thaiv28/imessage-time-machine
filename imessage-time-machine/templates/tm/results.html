@@ -18,5 +18,7 @@
         
     </div>
 {%endfor%}
+{% if page * rpp < messages|length%}
 <div hx-get="{{'/timemachine/search/%s'%(page+1)}}" hx-include=".form" 
             hx-trigger="revealed" hx-swap="afterend"></div>
+{% endif%}
