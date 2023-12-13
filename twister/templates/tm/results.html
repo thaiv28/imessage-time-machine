@@ -1,0 +1,22 @@
+
+<!-- receives terms and messages -->
+{%for msg in messages if (page - 1) * rpp <= messages.index(msg) < page * rpp %}
+    <div class ="row result">
+            <div class="col-10 text-truncate">
+                {% if msg.name%}
+                    <a href="{{ '/timemachine/message/%s'%msg.id}}">{{msg.signed_msg()}}</a>
+                    <br/>
+                    <div class="next">{{nexts[msg].text}}</div>
+                {%endif%}
+            </div>
+
+            <div class="col-2 meta">
+                {{msg.parentheses_date()}}
+                <br/>
+                {{msg.str_time()}}
+            </div>
+        
+    </div>
+{%endfor%}
+<div hx-get="{{'/timemachine/search/%s'%(page+1)}}" hx-include=".form" 
+            hx-trigger="revealed" hx-swap="afterend"></div>

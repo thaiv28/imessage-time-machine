@@ -3,7 +3,7 @@
 {% block bar%}
 <section>
     <div class="container-fluid">
-        <form action="/timemachine/search" method="get">
+        <form class="form"action="/timemachine/search/1" method="get">
             <div class="row searchbar">
                 <div class="col-sm-12">
                     <div class="form-group">
@@ -83,7 +83,7 @@
 {%endblock%}
 
 {% block body%}
-<!-- receives {{terms}} and {{messages}} -->
+<!-- receives terms and messages -->
 <main>
     <section class="result-data">
         <div class="container-fluid">
@@ -96,7 +96,7 @@
     </section>
     <section class="results">
         <div class="container-fluid">
-            {%for msg in messages %}
+            {%for msg in messages if (page - 1) * rpp <= messages.index(msg) < page * rpp %}
                 <div class ="row result">
                         <div class="col-10 text-truncate">
                             {% if msg.name%}
@@ -114,6 +114,8 @@
                     
                 </div>
             {%endfor%}
+            <div hx-get="{{'/timemachine/search/%s'%(page+1)}}" hx-include=".form" 
+            hx-trigger="revealed" hx-swap="afterend"></div>
         </div>
     </section>
 </main>

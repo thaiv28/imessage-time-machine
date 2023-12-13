@@ -9,6 +9,7 @@ class TimeMachine():
         self.separator = '----------------------------------------------------'
         self.master = self.get_messages(text)
         self.messages = self.master
+        self.rpp=50
         
     def random(self):
         return self.messages[random.randint(0, len(self.messages) - 1)]
@@ -17,9 +18,26 @@ class TimeMachine():
                sort_by='Oldest first', start=None, end=None):
         ret = []
 
+        
+        if start: 
+            start_date = datetime.date.fromisoformat(start)
+            min_time = datetime.time(hour=0)
+            start_dt = datetime.datetime.combine(start_date, min_time)
+        if end: 
+            end_date = datetime.date.fromisoformat(end)
+            max_time = datetime.time(hour=23, minute=59, second=59)
+            end_dt = datetime.datetime.combine(end_date, max_time)
+
         s = term.strip()
         
+        #TODO: implement binary search for messages
+        
         for msg in self.messages:
+            if start and msg.datetime < start_dt:
+                continue
+            if end and msg.datetime > end_dt:
+                continue
+
             if reactions == False and msg.reaction:
                 continue
             elif '(Image)' in msg.text:
@@ -38,6 +56,7 @@ class TimeMachine():
             
         
         return ret
+
     
     def get_messages(self, text):
         split = text.splitlines()
@@ -157,7 +176,7 @@ class TimeMachine():
                     
         return ret
     
-    def dates(self, s=None, e=None)
+    def dates(self, s=None, e=None):
         collect = True
         if s: 
             start = s.isoformat()

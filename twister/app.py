@@ -31,8 +31,8 @@ def message(id):
     
     return render_template('tm/message.html', msg=msg, context=context)
 
-@app.route("/timemachine/search", methods=['GET'])
-def timemachine_search():
+@app.route("/timemachine/search/<int:page>", methods=['GET'])
+def timemachine_search(page):
     t = create_tm()
     if request.args.get('caps'):
         caps = True
@@ -44,6 +44,7 @@ def timemachine_search():
         strict = False
 
     print(request.args)
+
     # check if random button click
     if request.args.get('search') == 'random':
         if request.args.get('terms') == '':
@@ -61,18 +62,24 @@ def timemachine_search():
                             end=request.args.get('end_date'),
                             caps_sensitive=caps, strict=strict)
         nexts = {}
-        
+        for msg in messages:
+            nexts[msg] = t.next_send(msg)
             
         if messages == []:
-            return render_template('/tm/empty.html')
-        else:
-            for msg in messages:
-                nexts[msg] = t.next_send(msg)
-            msg = messages[0]
+                return render_template('/tm/empty.html', terms=request.args['terms'],
+                                    messages=messages, nexts=nexts, args=request.args,
+                                    page=page)
+                    
+        if page <= 1:
             return render_template('/tm/search.html', terms=request.args['terms'],
-                                   messages=messages, nexts=nexts, args=request.args)
-
-    return render_template('tm/message.html', msg=msg, conteçxt=t.get_context(msg))
+                                messages=messages, nexts=nexts, args=request.args,
+                                page=page, rpp=t.rpp)
+        # any other page except first results
+        else:
+            print('page:' + str(page))
+            return render_template('/tm/results.html', terms=request.args['terms'],
+                                messages=messages, nexts=nexts, args=request.args,
+                                page=page,rpp=t.rpp)
 
 @app.route("/timemachine/results")
 def timemachine_results():
