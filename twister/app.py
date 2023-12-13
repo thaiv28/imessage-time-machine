@@ -9,12 +9,12 @@ app.config['SECRET_KEY'] = os.urandom(12).hex()
     
 @app.route('/')
 def index():
-    return redirect("/timemachine")
+    return redirect("/timemachine/")
 
-@app.route("/timemachine")
+@app.route("/timemachine/")
 def timemachine():
     t = create_tm()
-    
+    print('x')
     return redirect("/timemachine/message/"+str(random.randint(0, len(t.messages) - 1)))
 
 @app.route('/timemachine/message/<int:id>')
