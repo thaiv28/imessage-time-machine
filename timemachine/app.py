@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, session
-from imessage-time-machine.time_machine import TimeMachine
+from timemachine.time_machine import TimeMachine
 import random
 import os
 import jsonpickle
@@ -14,7 +14,9 @@ def index():
 @app.route("/timemachine/")
 def timemachine():
     t = create_tm()
-    print('x')
+    
+    return render_template("tm/index.html")
+    
     return redirect("/timemachine/message/"+str(random.randint(0, len(t.messages) - 1)))
 
 @app.route('/timemachine/message/<int:id>')

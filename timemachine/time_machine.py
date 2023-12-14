@@ -1,5 +1,5 @@
 import random
-from twister.message import Message
+from timemachine.message import Message
 import argparse
 import datetime
 
