@@ -1,11 +1,15 @@
 from flask import Flask, render_template, request, redirect, session
 from timemachine.time_machine import TimeMachine
+from flask_debugtoolbar import DebugToolbarExtension
 import random
 import os
 import jsonpickle
+import datetime
+from dateutil.relativedelta import relativedelta
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(12).hex()
+# toolbar = DebugToolbarExtension(app)
     
 @app.route('/')
 def index():
@@ -35,6 +39,9 @@ def message(id):
 
 @app.route("/timemachine/search/<int:page>", methods=['GET'])
 def timemachine_search(page):
+    if request.args.get('search') == 'yearago':
+        return redirect("/timemachine/date/" + (datetime.date.today()-relativedelta(years=1)).isoformat() + "/1")
+        
     t = create_tm()
     if request.args.get('caps'):
         caps = True
@@ -57,35 +64,74 @@ def timemachine_search(page):
             
         encode(t, msg)
         return redirect("/timemachine/message/"+str(msg.id))
-    else:
-        messages = t.search(request.args['terms'], 
-                            sort_by=request.args.get('sort_by'),
-                            start=request.args.get('start_date'), 
-                            end=request.args.get('end_date'),
-                            caps_sensitive=caps, strict=strict)
-        nexts = {}
-        for msg in messages:
-            nexts[msg] = t.next_send(msg)
-            
-        if messages == []:
-                return render_template('/tm/empty.html', terms=request.args['terms'],
-                                    messages=messages, nexts=nexts, args=request.args,
-                                    page=page)
-                    
-        if page <= 1:
-            return render_template('/tm/search.html', terms=request.args['terms'],
-                                messages=messages, nexts=nexts, args=request.args,
-                                page=page, rpp=t.rpp)
-        # any other page except first results
-        else:
-            print('page:' + str(page))
-            return render_template('/tm/results.html', terms=request.args['terms'],
-                                messages=messages, nexts=nexts, args=request.args,
-                                page=page,rpp=t.rpp)
+    
+    # if search with terms
+    messages = t.search(request.args['terms'], 
+                        sort_by=request.args.get('sort_by'),
+                        start=request.args.get('start_date'), 
+                        end=request.args.get('end_date'),
+                        caps_sensitive=caps, strict=strict)
+        
+    if messages == []:
+            return render_template('/tm/empty.html', terms=request.args['terms'],
+                                messages=messages, nexts=t.get_next_sends(messages), 
+                                args=request.args, page=page)
+    
+    # first result page
+    if page <= 1:
 
-@app.route("/timemachine/results")
-def timemachine_results():
-    pass
+        return render_template('/tm/search.html', terms=request.args['terms'],
+                            messages=messages, nexts=t.get_next_sends(messages), args=request.args,
+                            page=page, rpp=t.rpp)
+    # any other page except first results
+    else:
+        return render_template('/tm/results.html', terms=request.args['terms'],
+                            messages=messages, nexts=t.get_next_sends(messages),
+                            page=page,rpp=t.rpp)
+        
+@app.route("/timemachine/date/<string:date>")
+def timemachine_date(date):
+    t = create_tm()
+    messages = t.search(start=date, end=date)
+    page = 1
+    
+    date = datetime.date.fromisoformat(date)
+    str_date = date.strftime("%B %-d, %Y")
+    prev_day = date - datetime.timedelta(days=1)
+    next_day = date + datetime.timedelta(days=1)
+ 
+    
+    return render_template('/tm/date.html', messages=messages, nexts=t.get_next_sends(messages),
+                            args=request.args, page=page,rpp=t.rpp, date=date, str_date=str_date, 
+                            next_day=next_day, prev_day=prev_day)
+        
+@app.route("/timemachine/date/<string:date>/<int:page>")
+def timemachine_date_search(date, page):
+    t = create_tm()
+
+    messages = t.search(start=date, end=date)
+    
+    date = datetime.date.fromisoformat(date)
+    str_date = date.strftime("%B %-d, %Y")
+    prev_day = date - datetime.timedelta(days=1)
+    next_day = date + datetime.timedelta(days=1)
+    
+    if next_day > t.end_date:
+        next_day = None
+        
+    if prev_day < t.start_date:
+        prev_day = None
+        
+    if page <= 1:
+        
+        
+        return render_template('/tm/date.html', messages=messages, nexts=t.get_next_sends(messages),
+                               args=request.args, page=page,rpp=t.rpp, date=date, str_date=str_date, 
+                               next_day=next_day, prev_day=prev_day)
+    
+    else:
+        return render_template('/tm/date_results.html',messages=messages, nexts=t.get_next_sends(messages),
+                               args=request.args, page=page,rpp=t.rpp, date=date, next_day=next_day, prev_day=prev_day)
 
 def create_tm():
     f = open('../backup.txt', 'r')
@@ -100,6 +146,5 @@ def encode(t, msg):
     session['id'] = msg.id
     
 if __name__=='__main__':
-    
-    app.run()
+    app.run(debug=True)
     

@@ -1,0 +1,40 @@
+{% extends "/tm/base.html" %}
+{% block title %}The Time Machine!{% endblock%}
+{% block mainbar%}{%endblock%}
+
+{% block body%}
+<main>
+    <section>
+        <div class="container-fluid">
+            <div class="row d-flex border p-2 py-3">
+                <div class="col-lg-1 text-center">
+                    {%if prev_day %}
+                        <a href="/timemachine/date/{{prev_day}}">Previous Day</a>
+                    {%endif%}
+                </div>
+                <div class="col-lg-10">
+                    <h3 class="text-center">On {{str_date}}...</h3>
+                </div>
+                <div class="col-lg-1 text-center">
+                    {%if next_day%}
+                        <a href="/timemachine/date/{{next_day}}">Next Day</a>
+                    {%endif%}
+                </div>
+            </div>
+            {%for msg in messages if (page - 1) * rpp <= messages.index(msg) < page * rpp %}
+                <div class ="row result">
+                    <div class="col-lg-1 name text-nowrap">{{msg.name}}: </div>
+                    <div class="col-lg-10">{{msg.text}}</div>
+                    <div class="col-lg-1 time text-nowrap">{{msg.str_time()}}</div>
+                </div>
+            {%endfor%}
+            {% if page * rpp < messages|length%}
+                <div hx-get="{{'/timemachine/date/' ~date~ '/' ~(page+1)}}"
+                            hx-trigger="revealed" hx-swap="afterend"></div>
+            {% else %}
+                
+            {% endif%}
+        </div>
+    </section>
+</main>
+{% endblock %}

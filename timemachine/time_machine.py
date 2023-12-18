@@ -10,11 +10,13 @@ class TimeMachine():
         self.master = self.get_messages(text)
         self.messages = self.master
         self.rpp=50
+        self.start_date = self.master[0].date
+        self.end_date = self.master[-1].date
         
     def random(self):
         return self.messages[random.randint(0, len(self.messages) - 1)]
     
-    def search(self, term, caps_sensitive=False, strict=False, reactions=False,
+    def search(self, term=None, caps_sensitive=False, strict=False, reactions=False,
                sort_by='Oldest first', start=None, end=None):
         ret = []
 
@@ -28,7 +30,8 @@ class TimeMachine():
             max_time = datetime.time(hour=23, minute=59, second=59)
             end_dt = datetime.datetime.combine(end_date, max_time)
 
-        s = term.strip()
+        if term:
+            s = term.strip()
         
         #TODO: implement binary search for messages
         
@@ -43,10 +46,13 @@ class TimeMachine():
             elif '(Image)' in msg.text:
                 continue
             else:
-                if caps_sensitive and self.contains(msg.text, s, strict=strict):
-                    ret.append(msg)
-                if not caps_sensitive and self.contains(msg.text.upper(), s.upper(),
-                                                        strict=strict):
+                if term:
+                    if caps_sensitive and self.contains(msg.text, s, strict=strict):
+                        ret.append(msg)
+                    if not caps_sensitive and self.contains(msg.text.upper(), s.upper(),
+                                                            strict=strict):
+                        ret.append(msg)
+                else:
                     ret.append(msg)
                     
         if sort_by == 'Latest first':
@@ -54,9 +60,9 @@ class TimeMachine():
         elif sort_by == 'Random':
             random.shuffle(ret)
             
-        
-        return ret
 
+        return ret
+    
     
     def get_messages(self, text):
         split = text.splitlines()
@@ -103,6 +109,13 @@ class TimeMachine():
                 index += 1
                 
         return next
+    
+    def get_next_sends(self, messages):
+        nexts = {}
+        for msg in messages:
+            nexts[msg] = self.next_send(msg)
+        
+        return nexts
     
     def getbyid(self, id):
         if 0 < id < len(self.master):
@@ -203,6 +216,8 @@ class TimeMachine():
         if end < start: 
             return False
         return True
+    
+
     
 if __name__ == "__main__":
     f = open('../backup.txt', 'r')
