@@ -2,7 +2,7 @@
 
 {% block body_header%}
 <header>
-    <h1>esther and thai&apos;s text time machine!</h2>
+    
 </header>
 {% endblock%}
 
@@ -10,14 +10,18 @@
 <section>
     <div class="container-fluid">
         <form action="/timemachine/search/1" method="get">
-            <div class="row searchbar">
-                <div class="col-sm-12">
+            <div class="row searchbar p-4">
+                <div class="col-xl-auto">
+                    <a class="index-button" href="/timemachine"><h4>esther and thai&apos;s text time machine!</h4></a>
+                </div>
+                <div class="col-xl-auto d-flex justify-content-center">
                     <div class="form-group">
                         <input type="text" id="terms" placeholder="Search messages" name="terms">
                         <button type="submit" formmethod="get" name="search" value="terms" onClick="return document.getElementById('terms').value !=''">Search</button>
                         <button type="submit" formmethod="get" name="search" value="random">Random!</button>
                     </div>
                 </div>
+            </div>
         </form>
         
     </div>
@@ -27,14 +31,18 @@
 <section>
     <div class="container-fluid">
         <form class="form"action="/timemachine/search/1" method="get">
-            <div class="row searchbar">
-                <div class="col-sm-12">
+            <div class="row searchbar p-4">
+                <div class="col-xl-auto">
+                    <a class="index-button" href="/timemachine"><h4>esther and thai&apos;s text time machine!</h4></a>
+                </div>
+                <div class="col-xl-auto d-flex justify-content-center">
                     <div class="form-group">
                         <input type="text" id="terms" placeholder="Search messages" name="terms">
                         <button type="submit" formmethod="get" name="search" value="terms" onClick="return document.getElementById('terms').value !=''">Search</button>
                         <button type="submit" formmethod="get" name="search" value="random">Random!</button>
                     </div>
                 </div>
+            </div>
             <div class="row filters pt-2">
                 <div class="col-lg-auto">
                     <div class="form-group">

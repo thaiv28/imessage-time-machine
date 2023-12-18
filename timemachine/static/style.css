@@ -11,6 +11,11 @@
     text-align:left;
 }
 
+.index-button {
+    color: black;
+    text-decoration: inherit;
+}
+
 .next {
     color: lightslategray;
     font-size: 14px;
@@ -96,3 +101,6 @@ h2 {
     padding: 10px;
 }
 
+body { 
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; 
+}
