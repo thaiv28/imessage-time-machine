@@ -24,7 +24,9 @@
     <section class="context">
         <div class="container-fluid">
             {% if context %}
-                <h2>Context:</h2>
+                <div class="row py-3">
+                    <h2>Context:</h2>
+                </div>
                 <div class="context_messages">
                     {% if (context|first).date != msg.date %}
                         <div class ="row message date">
@@ -32,10 +34,10 @@
                         </div>
                     {% endif%}
                     {% for text in context%}
-                        <div class ="row message">
-                            <div class="col-2 name">{{text.name}}: </div>
-                            <div class="col-8">{{text.text}}</div>
-                            <div class="col-2 time">{{text.str_time()}}</div>
+                        <div class ="row result">
+                            <div class="col-lg-1 name text-nowrap">{{text.name}}: </div>
+                            <div class="col-lg-10">{{text.text}}</div>
+                            <div class="col-lg-1 time text-nowrap">{{text.str_time()}}</div>
                         </div>
                         {% if text.next_date and text.date != text.next_date %}
                             <div class ="row message date">

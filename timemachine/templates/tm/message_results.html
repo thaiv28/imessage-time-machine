@@ -1,8 +1,8 @@
 {% for text in context%}
-    <div class ="row message">
-        <div class="col-2 name">{{text.name}}: </div>
-        <div class="col-8">{{text.text}}</div>
-        <div class="col-2 time">{{text.str_time()}}</div>
+    <div class ="row result">
+        <div class="col-lg-1 name text-nowrap">{{text.name}}: </div>
+        <div class="col-lg-10">{{text.text}}</div>
+        <div class="col-lg-1 time text-nowrap">{{text.str_time()}}</div>
     </div>
     {% if text.next_date and text.date != text.next_date %}
         <div class ="row message date">
@@ -11,6 +11,6 @@
     {% endif %}
 {% endfor %}
 {% if master_length > rpp * page%}
-                        <div hx-get="{{'/timemachine/message/' ~id~ '/' ~(page+1)}}"
-                        hx-trigger="revealed" hx-swap="afterend"></div>
+    <div hx-get="{{'/timemachine/message/' ~id~ '/' ~(page+1)}}"
+    hx-trigger="revealed" hx-swap="afterend"></div>
 {% endif %}
