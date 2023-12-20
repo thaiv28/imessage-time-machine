@@ -80,6 +80,11 @@
     padding: 10px
 }
 
+.date {
+    font-weight: bold;
+    padding: 15px;
+}
+
 .result-data{
     padding:10px;
     color: lightslategray;

@@ -29,13 +29,15 @@ class Message():
             self.name = None
         
         self.id = id
-        
         self.reaction = reaction
-        
+        self.next_date = None
 
             
     def str_date(self):
         return self.date.strftime('%B %-d, %Y')
+    
+    def str_next_date(self):
+        return self.next_date.strftime('%B %-d, %Y')
     
     # ex: 5/5/05
     def parentheses_date(self):

@@ -71,6 +71,7 @@ class TimeMachine():
         if split[0] == self.separator:
             split.pop(0)
         
+        temp = None
         counter = 0
         t = ''
         for line in split:
@@ -79,11 +80,18 @@ class TimeMachine():
                 or "\nLiked " in t\
                 or "\nDisliked " in t\
                 or "\nLaughed at " in t:
-                    messages.append(Message(t, counter, reaction=True))
+                    msg = Message(t, counter, reaction=True)
                 else:
-                    messages.append(Message(t, counter, reaction=False))
+                    msg = Message(t, counter, reaction=False)
+                 
+                messages.append(msg)
+                if temp:
+                    temp.next_date = msg.date
+                temp = msg
+                   
                 t = ''
-                counter += 1
+                counter += 1                  
+                
             elif line != '':
                 t += line + '\n'
         
@@ -187,6 +195,10 @@ class TimeMachine():
             
         ret = []
         last = self.messages[lower]
+        
+        print('index' + str(index))
+        print('lower' + str(lower))
+        print('upper' + str(upper))
 
         for i in range(lower, upper):
             if only_relevant:
