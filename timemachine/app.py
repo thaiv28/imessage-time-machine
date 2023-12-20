@@ -9,7 +9,7 @@ from dateutil.relativedelta import relativedelta
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(12).hex()
-# toolbar = DebugToolbarExtension(app)
+toolbar = DebugToolbarExtension(app)
     
 @app.route('/')
 def index():
@@ -80,12 +80,12 @@ def timemachine_search(page):
     
     # first result page
     if page <= 1:
-
         return render_template('/tm/search.html', terms=request.args['terms'],
                             messages=messages, nexts=t.get_next_sends(messages), args=request.args,
                             page=page, rpp=t.rpp)
     # any other page except first results
     else:
+        print('Requesting new page.')
         return render_template('/tm/results.html', terms=request.args['terms'],
                             messages=messages, nexts=t.get_next_sends(messages),
                             page=page,rpp=t.rpp)
@@ -124,13 +124,11 @@ def timemachine_date_search(date, page):
         prev_day = None
         
     if page <= 1:
-        
-        
         return render_template('/tm/date.html', messages=messages, nexts=t.get_next_sends(messages),
                                args=request.args, page=page,rpp=t.rpp, date=date, str_date=str_date, 
                                next_day=next_day, prev_day=prev_day)
-    
     else:
+        print('Requesting new page.')
         return render_template('/tm/date_results.html',messages=messages, nexts=t.get_next_sends(messages),
                                args=request.args, page=page,rpp=t.rpp, date=date, next_day=next_day, prev_day=prev_day)
 

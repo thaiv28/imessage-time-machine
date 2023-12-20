@@ -16,7 +16,11 @@
                 </div>
                 <div class="col-xl-auto d-flex justify-content-center">
                     <div class="form-group">
-                        <input type="text" id="terms" placeholder="Search messages" name="terms">
+                        {% if terms %}
+                            <input type="text" id="terms" placeholder="Search messages" name="terms" value="{{terms}}">
+                        {%else%}
+                            <input type="text" id="terms" placeholder="Search messages" name="terms">
+                        {%endif%}
                         <button type="submit" formmethod="get" name="search" value="terms" onClick="return document.getElementById('terms').value !=''">Search</button>
                         <button type="submit" formmethod="get" name="search" value="random">Random!</button>
                     </div>
@@ -37,7 +41,11 @@
                 </div>
                 <div class="col-xl-auto d-flex justify-content-center">
                     <div class="form-group">
-                        <input type="text" id="terms" placeholder="Search messages" name="terms">
+                        {% if terms %}
+                            <input type="text" id="terms" placeholder="Search messages" name="terms" value="{{terms}}">
+                        {%else%}
+                            <input type="text" id="terms" placeholder="Search messages" name="terms">
+                        {%endif%}
                         <button type="submit" formmethod="get" name="search" value="terms" onClick="return document.getElementById('terms').value !=''">Search</button>
                         <button type="submit" formmethod="get" name="search" value="random">Random!</button>
                     </div>
