@@ -20,22 +20,23 @@ def timemachine():
     t = create_tm()
     
     return render_template("tm/index.html")
-    
-    return redirect("/timemachine/message/"+str(random.randint(0, len(t.messages) - 1)))
 
-@app.route('/timemachine/message/<int:id>')
-def message(id):
+@app.route('/timemachine/message/<int:id>/<int:page>')
+def message(id, page):
     if 'msg' in session and session['id'] == id:
         msg = jsonpickle.decode(session['msg'])
         context = jsonpickle.decode(session['context'])
     else:
         t = create_tm()
-        encode(t, t.getbyid(id))
+        encode(t, t.getbyid(id), page=page)
         
         msg = t.getbyid(id)
-        context = t.get_context(msg)
-    
-    return render_template('tm/message.html', msg=msg, context=context)
+        context = t.get_context(msg, page=page)
+        
+    if page <= 1:
+        return render_template('tm/message.html', msg=msg, context=context, id=id)
+    else:
+        return render_template('tm/message_results.html', msg=msg, context=context, id=id)
 
 @app.route("/timemachine/search/<int:page>", methods=['GET'])
 def timemachine_search(page):
@@ -140,9 +141,9 @@ def create_tm():
 
     return t
 
-def encode(t, msg):
+def encode(t, msg, page=1):
     session['msg'] = jsonpickle.encode(msg)
-    session['context'] = jsonpickle.encode(t.get_context(msg))
+    session['context'] = jsonpickle.encode(t.get_context(msg, page))
     session['id'] = msg.id
     
 if __name__=='__main__':

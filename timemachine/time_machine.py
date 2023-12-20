@@ -162,30 +162,44 @@ class TimeMachine():
          
          return results[random.randint(0, len(results) - 1)]
         
-    def get_context(self, msg, scope=10, buffer=1):
+    def get_context(self, msg, page, lower_scope=10, buffer=1, only_relevant=False):
+        upper_scope = self.rpp
         index = self.messages.index(msg)
         
-        if index > scope:
-            lower = index - scope
+        if page <= 1:
+            if index > lower_scope:
+                lower = index - lower_scope
+            else:
+                lower = 0
+                
+            if index + upper_scope < len(self.master):
+                upper = index + upper_scope
+            else:
+                upper = len(self.messages)
         else:
-            lower = 0
+            lower = index + (page - 1) * upper_scope
+            upper = index + page * upper_scope
             
-        if index < len(self.messages) - scope - 1:
-            upper = index + scope
-        else:
-            upper = len(self.messages) - 1
+            if lower >= len(self.master):
+                return []
+            if upper >= len(self.master):
+                upper = len(self.master)
             
         ret = []
         last = self.messages[lower]
+
         for i in range(lower, upper):
-            # check if same day
-            if self.messages[i].date == msg.date:
-                ret.append(self.messages[i])
-                last = self.messages[i]
-            elif i > lower:
-                if self.messages[i].datetime - last.datetime < \
-                datetime.timedelta(hours=2):
+            if only_relevant:
+                # check if same day
+                if self.messages[i].date == msg.date:
                     ret.append(self.messages[i])
+                    last = self.messages[i]
+                elif i > lower:
+                    if self.messages[i].datetime - last.datetime < \
+                    datetime.timedelta(hours=2):
+                        ret.append(self.messages[i])
+            else:
+                ret.append(self.master[i])
                     
         return ret
     

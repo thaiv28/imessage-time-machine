@@ -33,6 +33,10 @@
                             <div class="col-2 time">{{msg.str_time()}}</div>
                         </div>
                     {% endfor %}
+                    {% if messages %}
+                        <div hx-get="{{'/timemachine/messages/' ~id~ '/' ~(page+1)}}"
+                        hx-trigger="revealed" hx-swap="afterend"></div>
+                    {% endif %}
                 </div>
             {% endif %}
         </div>

@@ -21,7 +21,7 @@
                 <div class ="row result">
                         <div class="col-10 text-truncate">
                             {% if msg.name%}
-                                <a href="{{ '/timemachine/message/%s'%msg.id}}">{{msg.signed_msg()}}</a>
+                                <a href="{{ '/timemachine/message/%s/1'%msg.id}}">{{msg.signed_msg()}}</a>
                                 <br/>
                                 <div class="next">{{nexts[msg].text}}</div>
                             {%endif%}
