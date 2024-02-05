@@ -3,12 +3,12 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "estherandthai"
+name = "imessage-time-machine"
 version = "0.0.1"
 authors = [
   { name="Thai Villaluna", email="thaivillaluna@gmail.com" },
 ]
-description = "A website for thai and esther."
+description = "A website that displays old text messages"
 readme = "README.md"
 requires-python = ">=3.8"
 classifiers = [
@@ -18,4 +18,4 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/thaiv28/esther-and-thai"
+Homepage = "https://github.com/thaiv28/imessage-time-machine"
