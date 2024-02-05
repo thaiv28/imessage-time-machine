@@ -1,7 +1,7 @@
 {% for text in context%}
     <div class ="row result">
         <div class="col-lg-1 name text-nowrap">{{text.name}}: </div>
-        <div class="col-lg-10">{{text.text}}</div>
+        <div class="col-lg-10"><a class="normal-link" href="/timemachine/message/{{text.id}}/1">{{text.text}}</a></div>
         <div class="col-lg-1 time text-nowrap">{{text.str_time()}}</div>
     </div>
     {% if text.next_date and text.date != text.next_date %}

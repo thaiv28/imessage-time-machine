@@ -25,9 +25,9 @@ def timemachine():
 def message(id, page):
 
     t = create_tm()
-    encode(t, t.getbyid(id), page=page)
     
     msg = t.getbyid(id)
+    print(id)
     context = t.get_context(msg, page=page)
     rpp = t.rpp
     master_length = len(t.master)

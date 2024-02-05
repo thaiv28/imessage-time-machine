@@ -126,7 +126,7 @@ class TimeMachine():
         return nexts
     
     def getbyid(self, id):
-        if 0 < id < len(self.master):
+        if 0 <= id < len(self.master):
             return self.master[id]
         else:
             return None
@@ -195,10 +195,6 @@ class TimeMachine():
             
         ret = []
         last = self.messages[lower]
-        
-        print('index' + str(index))
-        print('lower' + str(lower))
-        print('upper' + str(upper))
 
         for i in range(lower, upper):
             if only_relevant:

@@ -6,16 +6,16 @@
 <main>
     <section>
         <div class="container-fluid">
-            <div class="row d-flex border p-2 pt-3">
-                <div class="col-lg-2 text-center">
+            <div class="row d-flex border p-4">
+                <div class="col-lg-2 my-3 text-center">
                     {%if prev_day %}
-                        <a href="/timemachine/date/{{prev_day}}">Previous Day</a>
+                        <a class="" href="/timemachine/date/{{prev_day}}">Previous Day</a>
                     {%endif%}
                 </div>
                 <div class="col-lg-8">
-                    <h3 class="text-center">On {{str_date}}...</h3>
+                    <h3 class="text-center my-3">On {{str_date}}...</h3>
                 </div>
-                <div class="col-lg-2 text-center">
+                <div class="col-lg-2 my-3 text-center">
                     {%if next_day%}
                         <a href="/timemachine/date/{{next_day}}">Next Day</a>
                     {%endif%}
@@ -24,7 +24,7 @@
             {%for msg in messages if (page - 1) * rpp <= messages.index(msg) < page * rpp %}
                 <div class ="row result">
                     <div class="col-lg-1 name text-nowrap">{{msg.name}}: </div>
-                    <div class="col-lg-10">{{msg.text}}</div>
+                    <div class="col-lg-10"><a class="normal-link" href="/timemachine/message/{{msg.id}}/1">{{msg.text}}</a></div>
                     <div class="col-lg-1 time text-nowrap">{{msg.str_time()}}</div>
                 </div>
             {%endfor%}

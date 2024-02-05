@@ -2,6 +2,10 @@
     text-align: left;
 }
 
+.highlight {
+    background-color: lightyellow;
+}
+
 .context-messages {
     display: flex;
     justify-content: space-between;
@@ -14,6 +18,11 @@
 .index-button {
     color: black;
     text-decoration: inherit;
+}
+
+.normal-link {
+    text-decoration:inherit;
+    color: inherit;
 }
 
 .next {
@@ -45,18 +54,12 @@
 
 .primary {
     text-align: center;
-    padding: 10px
 }
 
 .checkbox {
     display:inline-block;
-    justify-content: center;
+    vertical-align:middle;
 }
-
-.caps-check {
-    padding: 5px
-}
-
 
 .border {
     border:2px #eee solid;
@@ -76,8 +79,8 @@
 }
 
 .result{
-    border: 1px #eee solid;
-    padding: 10px
+    border: 1px #f2f2f2 solid;
+    padding: 15px
 }
 
 .date {
@@ -92,9 +95,22 @@
 }
 
 .searchbar{
-    padding: 10px;
     text-align: center;
     justify-content: left;
+    background-color: #457b9d;
+    color: white;
+}
+
+.offwhite {
+    color: #f1faee
+}
+
+.white{
+    color: white;
+}
+
+.red{
+    color: #e63946;
 }
 
 h1 {
@@ -102,7 +118,17 @@ h1 {
     padding: 10px;
 }
 
+hr {
+    border:1px solid;
+    color: black;
+    margin: 0px;
+    margin-left: -20px;
+    margin-right: -20px;
+}
+
 
 body { 
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; 
+    background-color: #f2f2f2;
+    color: #212121;
 }
