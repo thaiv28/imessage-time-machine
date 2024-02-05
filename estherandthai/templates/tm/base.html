@@ -1,0 +1,111 @@
+{% extends "/base.html" %}
+
+{% block body_header%}
+{% endblock%}
+
+{% block searchbar%}
+<section>
+    <div class="container-fluid">
+        <form action="/timemachine/search/1" method="get">
+            <div class="row searchbar p-4">
+                <div class="">
+                    <a class="green-9 index-button" href="/timemachine"><h4 class="my-4 text-center">esther and thai&apos;s text time machine!</h4></a>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <div class="form-group d-flex flex-wrap align-items-center justify-content-center">
+                        {% if terms %}
+                            <input class="form-control my-2 w-auto bg-grey-4" type="text" id="terms" placeholder="Search messages" name="terms" value="{{terms}}">
+                        {%else%}
+                            <input class="form-control my-2 w-auto bg-grey-4" type="text" id="terms" placeholder="Search messages" name="terms">
+                        {%endif%}
+                        <div class="p-2">
+                            <button class="button-4 green-7 mx-1"type="submit" formmethod="get" name="search" value="terms" onClick="return document.getElementById('terms').value !=''">Search</button>
+                            <button class="button-4 green-7 mx-1"type="submit" formmethod="get" name="search" value="random">Random!</button>
+                        </div>                   
+                </div>
+            </div>
+        </form>
+        
+    </div>
+</section>
+{%endblock%}
+{% block mainbar%}
+<section>
+    <div class="container-fluid">
+        <form class="form"action="/timemachine/search/1" method="get">
+            <div class="row searchbar p-4">
+                <div class="">
+                    <a class="green-9 index-button" href="/timemachine"><h4 class="my-4 text-center">esther and thai&apos;s text time machine!</h4></a>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <div class="form-group d-flex flex-wrap align-items-center justify-content-center">
+                        {% if terms %}
+                            <input class="form-control my-2 w-auto bg-grey-4" type="text" id="terms" placeholder="Search messages" name="terms" value="{{terms}}">
+                        {%else%}
+                            <input class="form-control my-2 w-auto bg-grey-4" type="text" id="terms" placeholder="Search messages" name="terms">
+                        {%endif%}
+                        <div class="p-2">
+                            <button class="button-4 green-7 mx-1"type="submit" formmethod="get" name="search" value="terms" onClick="return document.getElementById('terms').value !=''">Search</button>
+                            <button class="button-4 green-7 mx-1"type="submit" formmethod="get" name="search" value="random">Random!</button>
+                        </div>                   
+                </div>
+            </div>
+            <div class="row filters p-3">
+                <div class="d-flex justify-content-center align-items-center flex-wrap">
+                    <div class="form-group">
+                        <label for="sort_by text-nowrap">Sort by:</label>
+                        <select class="form-control w-auto mx-2" id="sort_by" name="sort_by" value="{{args.get('sort_by')}}"
+                        onchange="this.form.submit()">
+                            {% if args.get('sort_by') == 'Oldest first'%}
+                                <option selected>Oldest first</option>
+                            {% else %}
+                                <option>Oldest first</option>
+                            {% endif%}
+                            {% if args.get('sort_by') == 'Latest first'%}
+                                <option selected>Latest first</option>
+                            {% else %}
+                                <option>Latest first</option>
+                            {% endif%}
+                            {% if args.get('sort_by') == 'Random'%}
+                                <option selected>Random</option>
+                            {% else %}
+                                <option>Random</option>
+                            {% endif%}     
+                        </select>
+                    </div> 
+                    <div class="form-group">
+                        <label for="start_date">Start:</label>
+                        <input class="form-control w-auto mx-2 mt-2"type="date" id="start_date" name="start_date"
+                        onchange="" value="{{args.get('start_date')}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="end">End:</label>
+                        <input class="form-control w-auto mx-2 mt-2"type="date" id="end_date" name="end_date"
+                        onchange="" value="{{args.get('end_date')}}">
+                    </div>
+                    <!-- <div class="form-group">
+                        <label class="checkbox" for="caps" >Caps</label>
+                        {% if args.get('caps')%}
+                            <input class="checkbox mt-2 mx-2" type="checkbox" value="caps" name="caps" checked=true
+                            onchange="this.form.submit()">
+                        {% else %}
+                            <input class="checkbox mt-2 mx-2" type="checkbox" value="caps" name="caps"
+                            onchange="this.form.submit()">
+                        {% endif%}
+                    
+                        <label class="checkbox" for="strict">Strict</label>
+                        {% if args.get('strict')%}
+                            <input class="checkbox mt-2 mx-2" type="checkbox" value="strict" name="strict" 
+                            checked=true onchange="this.form.submit()">
+                        {% else %}
+                            <input class="checkbox mt-2 mx-2" type="checkbox" value="strict" name="strict"
+                            onchange="this.form.submit()">
+                        {% endif%}
+                    </div> -->
+                </div>
+            </div>
+        </form>
+        
+    </div>
+</section>
+{%endblock%}

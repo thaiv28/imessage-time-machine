@@ -1,0 +1,54 @@
+{%extends "tm/base.html"%}
+{% block og%}
+<meta property="og:title" content="esther and thai's time machine!" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="{{url}}" />
+<meta property="og:image" content="https://www.estherandthai.com{{url_for('static', filename='logo.png')}}" />
+{%endblock%}
+{% block body_header%}
+{% endblock%}
+{% block searchbar%}{%endblock%}
+{% block mainbar%}
+<section>
+    <header class="m-5 green-9">
+        <h1 class="text-center">esther and thai&apos;s text time machine!</h2>
+    </header>
+    <div class="container-fluid h-100 d-flex justify-content-center">
+        
+        <div class="index-card bg-grey-1 p-4">
+            <!-- <h3 class="card-heading text-center py-3">search for any message!</h3> -->
+            <form class=""action="/timemachine/search/1" method="get">
+                <div class="row d-flex text-center">
+                    <div class="form-group justify-content-center align-items-center">
+                        <input class="form-control bg-grey-2"type="text" id="terms" placeholder="Search messages" name="terms">
+                        <button class="btn-hide btn-primary" type="submit" formmethod="get" name="search" value="terms" onClick="return document.getElementById('terms').value !=''"
+                        ></button>
+                    </div>
+                </div>
+                <div class="row d-flex text-center p-3 pt-3">
+                    <div class="form-group justify-content-center align-items-center">
+                        <button class="green-7 button-4"type="submit" formmethod="get" name="search" value="random">Random</button>
+                        <button class="green-7 button-4"type="submit" formmethod="get" name="search" value="yearago">One Year Ago</button>
+                    </div>
+                </div>
+                <div class="row d-flex filters py-3">
+                    <div class="form-group d-flex">
+                        <label class="form-label p-2" for="start_date">Start:</label>
+                        <input class="form-control w-auto bg-grey-2 me-1" type="date" id="start_date" name="start_date">
+                        <label class="form-label p-2 ms-1" for="end">End:</label>
+                        <input class="form-control w-auto mb-2 bg-grey-2" type="date" id="end_date" name="end_date">
+                    </div>
+                </div>
+                <!-- <div class="row filters">
+                    <div class="form-group d-flex justify-content-center">
+                        <label class="form-check-label p-1" for="caps" >Caps</label>
+                        <input class="checkbox mt-2 me-2" type="checkbox" value="caps" name="caps" id="caps">
+                        <label class="form-check-label p-1 ms-2" for="strict">Strict</label>
+                        <input class="checkbox mt-2 me-3" type="checkbox" value="strict" name="strict" id="strict">
+                    </div>
+                </div> -->
+            </form>
+        </div>
+    </div>
+</section>
+{%endblock%}

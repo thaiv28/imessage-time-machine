@@ -1,0 +1,58 @@
+{% extends "/tm/base.html" %}
+{% block title %}The Time Machine!{% endblock%}
+{% block og%}
+<meta property="og:title" content="On {{str_date}}..." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="{{url}}" />
+<meta property="og:image" content="https://www.estherandthai.com{{url_for('static', filename='logo.png')}}" />
+{%endblock%}
+{% block mainbar%}{%endblock%}
+
+{% block body%}
+<main>
+    <section>
+        <div class="container-fluid d-flex justify-content-center">
+            <div class="date-card card bg-grey-1 d-flex flex-nowrap p-4 mb-4">
+                <div class="row d-flex flex-nowrap justify-content-around align-items-center">
+                    <div class="prev ms-2">
+                        {%if prev_day %}
+                            <a class="" href="/timemachine/date/{{prev_day}}">Prev.</a>
+                        {%endif%}
+                    </div>
+                    <h3 class="message-text text-center my-3">On {{str_date}}...</h3>
+                    <div class="next">
+                        {%if next_day%}
+                            <a class=""href="/timemachine/date/{{next_day}}">Next</a>
+                        {%endif%}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid d-flex justify-content-center">
+            <div class="context-messages bg-grey-1 py-3">
+                {%for text in messages if (page - 1) * rpp <= messages.index(text) < page * rpp %}
+                    <div class ="row d-flex flex-nowrap py-2 px-4 my-2">
+                        <div class="message-name text-nowrap grey-7">{{text.name}}: </div>
+                        <div class="text-wrap message-text"><a class="normal-link" href="/timemachine/message/{{text.id}}/1">
+                            {% if text.image%}
+                                (Image)
+                            {%else%}
+                                {{text.text}}
+                            {%endif%}
+                        </a></div>
+                        <div class="w-auto ms-auto self-align-end time text-nowrap">{{cont.str_time(text)}}</div>
+                    </div>
+                {%endfor%}
+                {% if page * rpp < messages|length%}
+                    <div class="d-flex justify-content-center" hx-get="{{'/timemachine/date/' ~date~ '/' ~(page+1)}}"
+                                hx-trigger="revealed" hx-swap="afterend">
+                                <img  id="spinner" class="my-indicator" src="{{url_for('static', filename='ring.svg')}}"/>
+                            </div>
+                {% else %}
+                    
+                {% endif%}
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

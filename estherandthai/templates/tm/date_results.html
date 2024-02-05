@@ -1,0 +1,32 @@
+{%for text in messages if (page - 1) * rpp <= messages.index(text) < page * rpp %}
+    <div class ="row d-flex flex-nowrap py-2 px-4 my-2">
+        <div class="message-name text-nowrap grey-7">{{text.name}}: </div>
+        <div class="text-wrap message-text"><a class="normal-link" href="/timemachine/message/{{text.id}}/1">
+            {% if text.image%}
+                (Image)
+            {%else%}
+                {{text.text}}
+            {%endif%}
+        </a></div>
+        <div class="w-auto ms-auto self-align-end time text-nowrap">{{cont.str_time(text)}}</div>
+    </div>
+{%endfor%}
+{% if page * rpp < messages|length%}
+    <div class="d-flex justify-content-center" hx-get="{{'/timemachine/date/' ~date~ '/' ~(page+1)}}"
+    hx-trigger="revealed" hx-swap="afterend">
+        <img  id="spinner" class="my-indicator" src="{{url_for('static', filename='ring.svg')}}"/>
+    </div>
+{% else %}
+<div class="">
+    <div class="d-flex justify-content-left">
+        {%if prev_day %}
+            <a href="/timemachine/date/{{prev_day}}">Previous Day</a>
+        {%endif%}
+    </div>
+    <div class="d-flex justify-content-right">
+        {%if next_day%}
+            <a href="/timemachine/date/{{next_day}}">Next Day</a>
+        {%endif%}
+    </div>
+</div>
+{% endif%}
