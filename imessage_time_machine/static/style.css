@@ -2,6 +2,11 @@
     text-align: left;
 }
 
+.footer {
+    position: absolute;
+    bottom: 0;
+}
+
 .highlight {
     background-color: lightyellow;
 }
