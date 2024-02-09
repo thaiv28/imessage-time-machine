@@ -43,4 +43,4 @@ with app.app_context():
     
     print(db.session.scalar(db.select(Message)))
     
-    pass
+    
